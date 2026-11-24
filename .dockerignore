@@ -1,0 +1,11 @@
+*
+!app/
+!lib/
+!db/
+!public/
+!drizzle/
+!docker/
+!package.json
+!package-lock.json
+!tsconfig.json
+!postcss.config.mjs

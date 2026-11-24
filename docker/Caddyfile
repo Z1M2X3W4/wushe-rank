@@ -1,0 +1,4 @@
+{$VOTE_DOMAIN} {
+	encode zstd gzip
+	reverse_proxy vote:3000
+}

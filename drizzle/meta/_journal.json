@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1795486290200,
+      "tag": "0000_nostalgic_naoko",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1795495418608,
+      "tag": "0001_campus_binding",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1795501065108,
+      "tag": "0002_browser_voters",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1795509672145,
+      "tag": "0003_daily_three_choices",
+      "breakpoints": true
+    }
+  ]
+}

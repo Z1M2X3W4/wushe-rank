@@ -1,0 +1,48 @@
+name: wushe-rank
+x-vote-domain: &domain "${VOTE_DOMAIN:-xn--dlqv1xmqa933btsgpy4af7a8zhr16d.xyz}"
+
+services:
+  vote:
+    build: .
+    image: wushe-rank:local
+    restart: unless-stopped
+    environment:
+      VINEXT_TRUSTED_HOSTS: *domain
+      GISCUS_REPO: ${GISCUS_REPO:-}
+      GISCUS_REPO_ID: ${GISCUS_REPO_ID:-}
+      GISCUS_CATEGORY: ${GISCUS_CATEGORY:-}
+      GISCUS_CATEGORY_ID: ${GISCUS_CATEGORY_ID:-}
+      MEMBER_TAGS_REPO: ${MEMBER_TAGS_REPO:-}
+      MEMBER_TAGS_BRANCH: ${MEMBER_TAGS_BRANCH:-main}
+    ports:
+      - "127.0.0.1:${VOTE_PORT:-3180}:3000"
+    volumes:
+      - ballots:/data
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/board').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 30s
+      start_period: 10s
+      timeout: 5s
+      retries: 3
+
+  caddy:
+    image: caddy:2-alpine
+    profiles: [https]
+    restart: unless-stopped
+    depends_on:
+      vote:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      VOTE_DOMAIN: *domain
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      - certificates:/data
+      - caddy_config:/config
+
+volumes:
+  ballots:
+  certificates:
+  caddy_config:
